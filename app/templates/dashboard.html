@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Zoo{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Stats Cards -->
+    <div class="flex gap-4 mb-8">
+        <!-- Total Cages Card -->
+        <div class="flex-1 bg-white rounded-2xl p-6 shadow hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-4">
+                <div class="bg-[#FDF6E9] p-4 rounded-xl">
+                    <i class="fas fa-home text-2xl text-[#8B7355]"></i>
+                </div>
+                <div>
+                    <h2 class="text-[#8B7355] text-lg">Total Cages</h2>
+                    <p class="text-3xl font-bold text-[#5C4033]">{{ cages|length }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Animaux Card -->
+        <div class="flex-1 bg-white rounded-2xl p-6 shadow hover:shadow-md transition-shadow">
+            <div class="flex items-center gap-4">
+                <div class="bg-[#E8F3D6] p-4 rounded-xl">
+                    <i class="fas fa-paw text-2xl text-[#556B2F]"></i>
+                </div>
+                <div>
+                    <h2 class="text-[#556B2F] text-lg">Total Animaux</h2>
+                    <p class="text-3xl font-bold text-[#5C4033]">{{ total_animaux }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forms Section -->
+    <div class="flex gap-4 mb-12">
+        <!-- Nouvelle Cage Form -->
+        <div class="flex-1 bg-white rounded-2xl p-6 shadow">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-[#FDF6E9] p-2 rounded-lg">
+                    <i class="fas fa-plus text-xl text-[#8B7355]"></i>
+                </div>
+                <h2 class="text-xl font-bold text-[#5C4033]">Nouvelle Cage</h2>
+            </div>
+            <form action="{{ url_for('main.ajouter_cage') }}" method="POST">
+                <input type="text" 
+                       name="numero"
+                       required
+                       placeholder="Nom de la cage"
+                       class="w-full p-3 mb-4 border border-[#E8DCC4] rounded-lg focus:ring-2 focus:ring-[#8B7355] focus:border-[#8B7355] placeholder-[#8B7355]/50">
+                <button type="submit" 
+                        class="w-full bg-[#8B7355] hover:bg-[#6B4423] text-white p-3 rounded-lg transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Ajouter la cage
+                </button>
+            </form>
+        </div>
+
+        <!-- Nouvel Animal Form -->
+        <div class="flex-1 bg-white rounded-2xl p-6 shadow">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-[#E8F3D6] p-2 rounded-lg">
+                    <i class="fas fa-plus text-xl text-[#556B2F]"></i>
+                </div>
+                <h2 class="text-xl font-bold text-[#5C4033]">Nouvel Animal</h2>
+            </div>
+            <form action="{{ url_for('main.ajouter_animal') }}" method="POST">
+                <select name="espece" 
+                        required 
+                        class="w-full p-3 mb-4 border border-[#E8DCC4] rounded-lg focus:ring-2 focus:ring-[#556B2F] focus:border-[#556B2F]">
+                    <option value="">Type d'animal</option>
+                    <optgroup label="Grands félins">
+                        <option value="Lion">🦁 Lion</option>
+                        <option value="Tigre">🐯 Tigre</option>
+                        <option value="Panthère">🐆 Panthère</option>
+                        <option value="Guépard">🐆 Guépard</option>
+                        <option value="Jaguar">🐆 Jaguar</option>
+                    </optgroup>
+                    <optgroup label="Autres carnivores">
+                        <option value="Loup">🐺 Loup</option>
+                        <option value="Ours brun">🐻 Ours brun</option>
+                        <option value="Ours polaire">🐻‍❄️ Ours polaire</option>
+                        <option value="Hyène">🦊 Hyène</option>
+                        <option value="Lynx">🐱 Lynx</option>
+                        <option value="Caracal">🐱 Caracal</option>
+                    </optgroup>
+                    <optgroup label="Reptiles">
+                        <option value="Crocodile">🐊 Crocodile</option>
+                        <option value="Python">🐍 Python</option>
+                        <option value="Anaconda">🐍 Anaconda</option>
+                    </optgroup>
+                    <optgroup label="Oiseaux de proie">
+                        <option value="Aigle">🦅 Aigle</option>
+                        <option value="Faucon">🦅 Faucon</option>
+                    </optgroup>
+                    <optgroup label="Herbivores">
+                        <option value="Zèbre">🦓 Zèbre</option>
+                        <option value="Girafe">🦒 Girafe</option>
+                        <option value="Éléphant">🐘 Éléphant</option>
+                        <option value="Antilope">🦌 Antilope</option>
+                        <option value="Gazelle">🦌 Gazelle</option>
+                        <option value="Gnou">🦬 Gnou</option>
+                        <option value="Cerf">🦌 Cerf</option>
+                        <option value="Élan">🦌 Élan</option>
+                        <option value="Bison">🦬 Bison</option>
+                    </optgroup>
+                    <optgroup label="Autres mammifères">
+                        <option value="Tapir">🦏 Tapir</option>
+                        <option value="Capybara">🦫 Capybara</option>
+                        <option value="Phacochère">🐗 Phacochère</option>
+                        <option value="Singe">🐒 Singe</option>
+                        <option value="Tatou">🦔 Tatou</option>
+                    </optgroup>
+                    <optgroup label="Petits animaux">
+                        <option value="Lapin">🐰 Lapin</option>
+                        <option value="Lièvre">🐰 Lièvre</option>
+                        <option value="Souris">🐁 Souris</option>
+                        <option value="Rat">🐀 Rat</option>
+                        <option value="Écureuil">🐿️ Écureuil</option>
+                    </optgroup>
+                </select>
+                <input type="text" 
+                       name="nom"
+                       required
+                       placeholder="Nom de l'animal"
+                       class="w-full p-3 mb-4 border border-[#E8DCC4] rounded-lg focus:ring-2 focus:ring-[#556B2F] focus:border-[#556B2F] placeholder-[#8B7355]/50">
+                <select name="cage_id" 
+                        required 
+                        class="w-full p-3 mb-4 border border-[#E8DCC4] rounded-lg focus:ring-2 focus:ring-[#556B2F] focus:border-[#556B2F]">
+                    <option value="">Sélectionner une cage</option>
+                    {% for cage in cages %}
+                        <option value="{{ cage.id }}">Cage {{ cage.numero }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" 
+                        class="w-full bg-[#556B2F] hover:bg-[#445626] text-white p-3 rounded-lg transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Ajouter l'animal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste des cages -->
+    <div class="space-y-6">
+        {% for cage in cages %}
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+            <!-- En-tête de la cage avec des tons safari -->
+            <div class="p-4 border-b border-[#E8DCC4] flex justify-between items-center bg-gradient-to-r from-[#FDF6E9] to-[#F5E6CF]">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-white rounded-lg shadow-sm">
+                        <i class="fas fa-home text-[#8B7355]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#5C4033]">Cage {{ cage.numero }}</h3>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <span class="px-3 py-1.5 bg-white text-[#8B7355] rounded-full text-sm font-medium shadow-sm">
+                            {% if cage.animaux|length == 0 %}
+                                Cage vide
+                            {% elif cage.animaux|length == 1 %}
+                                1 animal
+                            {% else %}
+                                {{ cage.animaux|length }} animaux
+                            {% endif %}
+                        </span>
+                    </div>
+                    <form action="{{ url_for('main.supprimer_cage', cage_id=cage.id) }}" method="POST" 
+                          onsubmit="return false;" 
+                          class="inline">
+                        <button type="button"
+                                onclick="confirmerSuppression(this.form, '{{ cage.numero }}')"
+                                class="p-2 text-[#8B7355] hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Liste des animaux -->
+            <div class="divide-y divide-[#E8DCC4]">
+                {% for animal in cage.animaux %}
+                <div class="p-4 hover:bg-[#FDF6E9] transition-colors duration-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <!-- Icône de l'animal avec des couleurs naturelles -->
+                            <div class="p-3 rounded-full text-2xl
+                                {% if animal.regime_alimentaire == 'carnivore' %}
+                                    bg-[#FFE4E1]
+                                {% elif animal.regime_alimentaire == 'herbivore' %}
+                                    bg-[#E8F3D6]
+                                {% else %}
+                                    bg-[#FFE5B4]
+                                {% endif %}">
+                                {% if animal.espece == "Lion" %}🦁
+                                {% elif animal.espece == "Lapin" %}🐰
+                                <!-- ... autres espèces ... -->
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Informations de l'animal -->
+                            <div>
+                                <h4 class="font-semibold text-[#5C4033]">{{ animal.nom }}</h4>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-sm text-[#8B7355]">{{ animal.espece }}</span>
+                                    <span class="text-[#E8DCC4]">•</span>
+                                    <span class="text-sm 
+                                        {% if animal.regime_alimentaire == 'carnivore' %}
+                                            text-[#A0522D]
+                                        {% elif animal.regime_alimentaire == 'herbivore' %}
+                                            text-[#556B2F]
+                                        {% else %}
+                                            text-[#CD853F]
+                                        {% endif %}">
+                                        {% if animal.regime_alimentaire == 'carnivore' %}
+                                            🥩 Carnivore
+                                        {% elif animal.regime_alimentaire == 'herbivore' %}
+                                            🥬 Herbivore
+                                        {% else %}
+                                            🍖 Omnivore
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Menu d'alimentation -->
+                        <div class="flex items-center justify-end space-x-3">
+                            {% if animal.derniere_alimentation %}
+                            <span class="text-sm text-[#8B7355] flex items-center space-x-1">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ animal.derniere_alimentation.strftime('%H:%M') }}</span>
+                            </span>
+                            {% endif %}
+
+                            <form action="{{ url_for('main.nourrir_animal', animal_id=animal.id) }}" 
+                                  method="POST" 
+                                  class="relative inline-flex items-center">
+                                <select name="nourriture" 
+                                        class="appearance-none pl-3 pr-12 py-2 bg-white border border-[#E8DCC4] rounded-lg text-sm focus:ring-2 focus:ring-[#8B7355] focus:border-[#8B7355] hover:border-[#CD853F] transition-colors cursor-pointer">
+                                    <option value="">Nourrir...</option>
+                                    <option value="viande">🥩 Viande</option>
+                                    <option value="poisson">🐟 Poisson</option>
+                                    <option value="fruits">🍎 Fruits</option>
+                                    <option value="légumes">🥬 Légumes</option>
+                                    <option value="graines">🌾 Graines</option>
+                                    <option value="insectes">🪲 Insectes</option>
+                                </select>
+                                <button type="submit" 
+                                        class="absolute right-0 inset-y-0 px-3 bg-[#8B7355] hover:bg-[#6B4423] text-white rounded-r-lg transition-colors">
+                                    <i class="fas fa-utensils text-sm"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Notifications -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2
+                      {% if category == 'error' %}bg-red-500
+                      {% elif category == 'warning' %}bg-orange-600
+                      {% else %}bg-green-500{% endif %} 
+                      text-white transform transition-all duration-500"
+                 x-data="{ show: true }"
+                 x-show="show"
+                 x-init="setTimeout(() => show = false, 5000)"
+                 @click="show = false"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-4">
+                <i class="fas {% if category == 'error' %}fa-exclamation-circle
+                           {% elif category == 'warning' %}fa-skull
+                           {% else %}fa-check-circle{% endif %}"></i>
+                <span class="{% if category == 'warning' %}font-bold{% endif %}">{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script>
+function confirmerSuppression(form, nomCage) {
+    Swal.fire({
+        title: 'Êtes-vous sûr ?',
+        html: `Vous êtes sur le point de supprimer la cage <strong>${nomCage}</strong>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#EF4444',
+        cancelButtonColor: '#6B7280',
+        confirmButtonText: 'Oui, supprimer',
+        cancelButtonText: 'Annuler',
+        reverseButtons: true,
+        customClass: {
+            popup: 'rounded-xl',
+            title: 'text-xl font-bold',
+            htmlContainer: 'text-gray-600',
+            confirmButton: 'px-4 py-2 rounded-lg',
+            cancelButton: 'px-4 py-2 rounded-lg'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+}
+</script>
+{% endblock %} 
